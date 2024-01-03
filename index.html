@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webcam Capture</title>
+</head>
+<body>
+  <button id="captureButton">Capture Image</button>
+  <script>
+    const captureButton = document.getElementById('captureButton');
+    captureButton.addEventListener('click', () => {
+      // When the button is clicked, make a request to the /capture endpoint
+      fetch('/capture')
+        .then(response => response.text())
+        .then(message => alert(message))
+        .catch(error => console.error('Error:', error));
+    });
+  </script>
+</body>
+</html>
