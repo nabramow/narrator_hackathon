@@ -7,6 +7,9 @@ const fs = require('fs');
 const app = express();
 const port = 3000;
 
+// Serve static files from the 'frames' directory
+app.use('/frames', express.static(path.join(__dirname, 'frames')));
+
 // Set up a route to serve the HTML page
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
@@ -43,8 +46,10 @@ app.get('/capture', async (req, res) => {
       // Save the resized image to a file (you may want to save it with a unique name)
       const imagePath = path.join(__dirname, 'frames', 'captured_frame.jpg');
       fs.writeFileSync(imagePath, resizedImgBuffer);
-  
-      res.send('Image captured and resized successfully!');
+
+      const relativePath = path.relative(__dirname, imagePath);
+      
+      res.send({text: 'Image captured and resized successfully!', imagePath: relativePath});
     } catch (error) {
       console.error('Error:', error);
   

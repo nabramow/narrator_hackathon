@@ -3,19 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Webcam Capture</title>
+  <title>Webcam Capture Demo</title>
 </head>
 <body>
-  <button id="captureButton">Capture Image</button>
+  <h1>Webcam Capture Demo</h1>
+  <div>
+    <button id="captureButton">Capture Image</button>
+  </div>
+  <p>Result:</p>
+  <div id="imageContainer">
+    <!-- The captured image will be displayed here -->
+  </div>
+
   <script>
     const captureButton = document.getElementById('captureButton');
-    captureButton.addEventListener('click', () => {
-      // When the button is clicked, make a request to the /capture endpoint
-      fetch('/capture')
-        .then(response => response.text())
-        .then(message => alert(message))
-        .catch(error => console.error('Error:', error));
+    const imageContainer = document.getElementById('imageContainer');
+
+    captureButton.addEventListener('click', async () => {
+      const response = await fetch('/capture');
+      const json = await response.json();
+
+      if (response.ok) {
+        alert(json.text);
+        const imagePath = json.imagePath;
+        displayCapturedImage(imagePath);
+      } else {
+        console.error('Error capturing image:', response.statusText);
+      }
     });
+
+    function displayCapturedImage(imagePath) {
+      // Create an image element and set its source to the captured image path
+      const imgElement = document.createElement('img');
+      imgElement.src = imagePath;
+
+      // Append the image element to the container
+      imageContainer.src = null; // Clear previous images
+      imageContainer.appendChild(imgElement);
+    }
   </script>
 </body>
 </html>
