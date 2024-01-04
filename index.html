@@ -14,7 +14,10 @@
   <div id="imageContainer">
     <!-- The captured image will be displayed here -->
   </div>
-
+  <p>Description:</p>
+  <div id="descriptionContainer">
+    <!-- The captured image will be displayed here -->
+  </div>
   <script>
     const captureButton = document.getElementById('captureButton');
     const imageContainer = document.getElementById('imageContainer');
@@ -25,21 +28,23 @@
 
       if (response.ok) {
         alert(json.text);
-        const imagePath = json.imagePath;
-        displayCapturedImage(imagePath);
+        displayCapturedImageAndDescription(json);
       } else {
         console.error('Error capturing image:', response.statusText);
       }
     });
 
-    function displayCapturedImage(imagePath) {
+    function displayCapturedImageAndDescription(json) {
       // Create an image element and set its source to the captured image path
       const imgElement = document.createElement('img');
-      imgElement.src = imagePath;
+      imgElement.src = json.imagePath;
 
       // Append the image element to the container
       imageContainer.src = null; // Clear previous images
       imageContainer.appendChild(imgElement);
+
+      const descriptionElement = document.getElementById('descriptionContainer');
+      descriptionElement.innerHTML = json.description;
     }
   </script>
 </body>

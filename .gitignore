@@ -2,3 +2,4 @@ frames/
 node_modules/
 .DS_Store
 capture.jpg
+.env

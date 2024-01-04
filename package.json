@@ -4,6 +4,10 @@
     "express": "^4.18.2",
     "node-opencv": "^0.0.2-security",
     "node-webcam": "^0.8.2",
+    "replicate": "^0.25.2",
     "sharp": "^0.33.1"
+  },
+  "scripts": {
+    "start": "node --env-file=.env --watch app.js"
   }
 }
