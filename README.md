@@ -2,7 +2,7 @@
 
 This project is based on [this one here](https://replicate.com/blog/how-to-create-an-ai-narrator). The original is in Python, so my main task was to get it working in Javascript using Node.js.
 
-I completed this project as I wanted to play around with AI a bit more, and it utilized three different models:
+I completed this project as I wanted to play around with AI models a bit more. It utilizes three different models:
 
 - [Llava-13b, an open-source vision model](https://replicate.com/yorickvp/llava-13b). This allows you to provide an image with a prompt. In this case my prompt was. "Describe the image", but you can ask it more specific questions about the image as well.
 - [Mistral-7b-instruct-v0.1](https://replicate.com/mistralai/mistral-7b-instruct-v0.1), an open-source generative text model fine-tuned for instructions. This is used to take the image description from the previous step and change the tone to be like David Attenborough describing a nature documentary.
