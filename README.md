@@ -8,17 +8,13 @@ I completed this project as I wanted to play around with AI a bit more, and it u
 - [Mistral-7b-instruct-v0.1](https://replicate.com/mistralai/mistral-7b-instruct-v0.1), an open-source generative text model fine-tuned for instructions. This is used to take the image description from the previous step and change the tone to be like David Attenborough describing a nature documentary.
 - [ElevenLabs text-to-speech](https://elevenlabs.io/), this is used to get the read the text aloud in the voice of Sir David Attenborough. In this case I got lucky and it already had a voice like his, but if you pay a higher subscription you can also upload your own audio files and clone the voice for your purposes.
 
-  ## Examples
+## Examples
 
-  Screenshot of what you see. Click the "Capture Image" button, a screenshot will appear on the screen. You'll get status updates of what step it's on, then the resulting description will appear. The narration will play through your speakers.
-  
-<img width="757" alt="Screenshot 2024-01-05 at 9 35 51 AM" src="https://github.com/nabramow/narrator_hackathon/assets/18261566/f980f03a-2a19-4b2b-8699-e2c07a07cadc">
+Here's a video screenshare demo of how it works. Click the "Capture Image" button, a screenshot will appear on the screen. You'll get status updates of what step it's on, then the resulting description will appear. The narration will play through your speakers.
 
-Here's a shitty phone video with the voice narration and everything:
+[![Screenshot 2024-01-05 at 12 09 40 PM](https://github.com/nabramow/narrator_hackathon/assets/18261566/372d0221-86c6-434f-97a9-b821be7a8663)](https://vimeo.com/manage/videos/900236406)
 
-https://github.com/nabramow/narrator_hackathon/assets/18261566/665f709e-fffb-485f-b021-19d82c8acd93
-
-  ## Tech Stack
+## Tech Stack
 
   I used Node.js and Express to throw together a super simple backend. This serves the HTML page and has three different routes for capturing the image, getting the description and reading the text aloud. I broke it into three routes mostly so I could quickly provide status updates after each step, but you could easily just do it in one.
 
@@ -28,7 +24,7 @@ https://github.com/nabramow/narrator_hackathon/assets/18261566/665f709e-fffb-485
 
   To play the sound, I used the [play-sound](https://github.com/shime/play-sound) package. This plays sound files from Node.js via your speakers. I liked this since it checks for a bunch of different audio players. In my case this allowed me to just drop it in and have it work.
 
-  ## Notes on potential improvements
+## Notes on potential improvements
 
   The biggest struggle was getting the prompt changed in tone to David Attenborough. The prompt I had the most success with was, `Here is a description of an image after the word 'DESCRIPTION'. Change the tone of the existing description to sound like Sir David Attenborough narrating a nature documentary. Make it snarky and funny. Return only the narration as a string.\n\nDESCRIPTION:\n${description}`.
 
