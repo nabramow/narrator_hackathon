@@ -20,7 +20,7 @@ Here's a video screenshare demo of how it works. Click the "Capture Image" butto
 
   To take the webcam image I used [node-webcam](https://github.com/chuckfairy/node-webcam). As I needed to throw this together quickly for a hackathon, I opted to just take a webcam pic via button click rather than snap a pic every 5 seconds like the original. This is mostly because I am cheap. To do it like the original you could just drop the api call into a `setInterval`.
 
-  Important is after taking the picture or want to resize the image to be smaller before passing to the AI that generates a description. This saves money. I used [sharp](https://github.com/lovell/sharp) for this, which is a Node-API module that converts large images in common formats to smaller, web-friendly JPEG, PNG, WebP, GIF and AVIF images of varying dimensions.
+  Important is after taking the picture you'll want to resize the image to be smaller before passing to the AI that generates a description. This saves money. I used [sharp](https://github.com/lovell/sharp) for this, which is a Node-API module that converts large images in common formats to smaller, web-friendly JPEG, PNG, WebP, GIF and AVIF images of varying dimensions.
 
   To play the sound, I used the [play-sound](https://github.com/shime/play-sound) package. This plays sound files from Node.js via your speakers. I liked this since it checks for a bunch of different audio players. In my case this allowed me to just drop it in and have it work.
 
