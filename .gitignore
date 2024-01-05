@@ -1,5 +1,7 @@
 frames/
+temp/
 node_modules/
 .DS_Store
 capture.jpg
+output-file.mp3
 .env

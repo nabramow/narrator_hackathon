@@ -1,13 +1,16 @@
 {
   "name": "narrator_hackathon",
+  "type": "module",
   "dependencies": {
     "express": "^4.18.2",
+    "node-fetch": "^3.3.2",
     "node-opencv": "^0.0.2-security",
     "node-webcam": "^0.8.2",
+    "play-sound": "^1.1.6",
     "replicate": "^0.25.2",
     "sharp": "^0.33.1"
   },
   "scripts": {
-    "start": "node --env-file=.env --watch app.js"
+    "start": "node --env-file=.env --watch app.mjs"
   }
 }

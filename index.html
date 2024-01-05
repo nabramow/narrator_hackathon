@@ -10,7 +10,7 @@
   <div>
     <button id="captureButton">Capture Image</button>
   </div>
-  <p>Result:</p>
+  <p>Image:</p>
   <div id="imageContainer">
     <!-- The captured image will be displayed here -->
   </div>
@@ -23,29 +23,36 @@
     const imageContainer = document.getElementById('imageContainer');
 
     captureButton.addEventListener('click', async () => {
-      const response = await fetch('/capture');
-      const json = await response.json();
+        const captureResponse = await fetch('/capture');
+        const imageJson = await captureResponse.json();
 
-      if (response.ok) {
-        alert(json.text);
-        displayCapturedImageAndDescription(json);
-      } else {
-        console.error('Error capturing image:', response.statusText);
-      }
-    });
+        if (captureResponse.ok) {
+            // Create an image element and set its source to the captured image path
+            const imgElement = document.createElement('img');
+            imgElement.src = imageJson.imagePath;
+            // Append the image element to the container
+            imageContainer.src = null; // Clear previous images
+            imageContainer.appendChild(imgElement);
+        } else {
+            console.error('Error capturing image:', captureResponse.statusText);
+        }
 
-    function displayCapturedImageAndDescription(json) {
-      // Create an image element and set its source to the captured image path
-      const imgElement = document.createElement('img');
-      imgElement.src = json.imagePath;
+        const descriptionResponse = await fetch('/describe', { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({ "imagePath": imageJson.imagePath }) });
+        const descriptionJson = await descriptionResponse.json();
 
-      // Append the image element to the container
-      imageContainer.src = null; // Clear previous images
-      imageContainer.appendChild(imgElement);
+        if (descriptionResponse.ok) {
+            const descriptionElement = document.getElementById('descriptionContainer');
+            descriptionElement.innerHTML = descriptionJson.description;
+        } else {
+            console.error('Error describing image:', descriptionResponse.statusText);
+        }
 
-      const descriptionElement = document.getElementById('descriptionContainer');
-      descriptionElement.innerHTML = json.description;
-    }
+        const readResponse = await fetch('/read', { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({ "description": descriptionJson.description }) });
+
+        if (!readResponse.ok) {
+            console.error('Error describing description:', readResponse.statusText);
+        }
+    })
   </script>
 </body>
 </html>
