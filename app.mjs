@@ -118,10 +118,10 @@ async function getAIImageDescription (req, res) {
                 debug: false,
                 top_k: 50,
                 top_p: 0.9,
-                prompt: `<s>[INST]Here is a description of an image below.[/INST]<s> [INST]Change the tone of the existing description to sound like Sir David Attenborough narrating a nature documentary.[/INST] [INST]Make it snarky and funny.[/INST] [INST]Return only the narration as a string.[/INST]
+                prompt: `Here is a description of an image after the word 'DESCRIPTION'. Change the tone of the existing description to sound like Sir David Attenborough narrating a nature documentary. Make it snarky and funny. Return only the narration as a string.
                 \n\nDESCRIPTION:\n${prediction.join(' ')}`,
                 temperature: 0.7,
-                max_new_tokens: 128,
+                max_new_tokens: 150,
                 min_new_tokens: -1
               }
             }
@@ -155,11 +155,13 @@ async function generateAudio (req, res) {
             }
         );
 
-        const data = await response.body;
+        if (!response.ok) {
+          throw new Error(response.statusText);
+        }
 
         // Write the buffer to a temporary file
         const tempFilePath = path.join(__dirname, 'temp', 'temp_audio.mp3');
-        await fs.promises.writeFile(tempFilePath, data);
+        await fs.promises.writeFile(tempFilePath, response.body);
 
         // Play the temporary file
         player.play(tempFilePath, (err) => {

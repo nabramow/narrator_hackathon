@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Webcam Capture Demo</title>
+  <title>Narration Demo</title>
 </head>
 <body>
-  <h1>Webcam Capture Demo</h1>
+  <h1>Narration Demo</h1>
   <div>
     <button id="captureButton">Capture Image</button>
   </div>
+  <p id="status" style="text-align: center; width: 100%; font-style: italic;"></p>
   <p>Image:</p>
   <div id="imageContainer">
     <!-- The captured image will be displayed here -->
@@ -21,8 +22,12 @@
   <script>
     const captureButton = document.getElementById('captureButton');
     const imageContainer = document.getElementById('imageContainer');
+    const progressElement = document.getElementById('status');
+    progressElement.innerHTML = 'Click "Capture Image" to begin...';
 
     captureButton.addEventListener('click', async () => {
+        progressElement.innerHTML = 'Capturing image...';
+
         const captureResponse = await fetch('/capture');
         const imageJson = await captureResponse.json();
 
@@ -36,6 +41,7 @@
         } else {
             console.error('Error capturing image:', captureResponse.statusText);
         }
+        progressElement.innerHTML = 'Getting image description...';
 
         const descriptionResponse = await fetch('/describe', { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({ "imagePath": imageJson.imagePath }) });
         const descriptionJson = await descriptionResponse.json();
@@ -46,8 +52,10 @@
         } else {
             console.error('Error describing image:', descriptionResponse.statusText);
         }
+        progressElement.innerHTML = 'Sending narration to Sir David Attenborough for review...';
 
         const readResponse = await fetch('/read', { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({ "description": descriptionJson.description }) });
+        progressElement.innerHTML = '';
 
         if (!readResponse.ok) {
             console.error('Error describing description:', readResponse.statusText);
