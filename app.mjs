@@ -28,7 +28,6 @@ app.get('/', (req, res) => {
 
 app.use(express.json());
 
-// Route to capture image, get description and play audio narration 
 app.get('/capture', captureAndDisplayImage);
 
 app.post('/describe', getAIImageDescription);
@@ -42,8 +41,8 @@ async function captureAndDisplayImage (req, res) {
           height: 480,
           delay: 0,
           quality: 100,
-          output: 'jpeg', // Specify the desired image format (jpeg or png)
-          callbackReturn: 'buffer', // Change callbackReturn to 'buffer'
+          output: 'jpeg', 
+          callbackReturn: 'buffer',
         };
     
         // Capture the image asynchronously
@@ -89,7 +88,7 @@ async function getAIImageDescription (req, res) {
         const data = await fs.promises.readFile(req.body.imagePath);
         // Convert the buffer into a base64-encoded string
         const base64 = data.toString("base64");
-        // Set MIME type for PNG image
+        // Set MIME type for jpeg image
         const mimeType = "image/jpeg";
         // Create the data URI
         const dataURI = `data:${mimeType};base64,${base64}`;
@@ -102,7 +101,7 @@ async function getAIImageDescription (req, res) {
               input: {
                 image: dataURI,
                 top_p: 1,
-                prompt: 'Describe this image',
+                prompt: 'Describe this image. Focus on the human.',
                 max_tokens: 1024,
                 temperature: 0.2
               }
@@ -118,7 +117,7 @@ async function getAIImageDescription (req, res) {
                 debug: false,
                 top_k: 50,
                 top_p: 0.9,
-                prompt: `Here is a description of an image after the word 'DESCRIPTION'. Change the tone of the existing description to sound like Sir David Attenborough narrating a nature documentary. Make it snarky and funny. Return only the narration as a string.
+                prompt: `Here is a description of an image after the word 'DESCRIPTION'. Change the tone of the existing description to sound like Sir David Attenborough narrating a nature documentary. Make it snarky and funny! Return only the narration as a string.
                 \n\nDESCRIPTION:\n${prediction.join(' ')}`,
                 temperature: 0.7,
                 max_new_tokens: 150,
